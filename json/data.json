@@ -1,0 +1,13 @@
+{
+  "product":[{
+    "id":1,
+    "img":"json/1.jpg",
+    "title":"商品1",
+    "price":100
+  },{
+    "id":2,
+    "img":"json/2.jpg",
+    "title":"商品2",
+    "price":200
+  }]
+}
