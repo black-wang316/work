@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="container-fluid">
+            <h3 class="wq-title">
+                <span class="logo">
+                    <img src="//b.appsimg.com/upload/momin/2020/09/04/30/1599227967446.png" alt="品牌特卖" id="J-vipLogo"
+                        height="100">
+                </span>
+                <button type="button" class="btn" data-toggle="modal" data-target=".wq-add">
+                    <span class="
+                    glyphicon glyphicon-plus" aria-hidden="true"></span>
+                    添加商品
+                </button>
+            </h3>
+            <div class="modal fade wq-add">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <!--细节划分-->
+                        <h4>填写商品信息:</h4>
+                        <div class="form-group">
+                            <label for="wq-content">商品名称</label>
+                            <input type="text" class="form-control" id="wq-content" placeholder="商品名称" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="wq-where">商品单价</label>
+                            <textarea id="wq-where" class="form-control" rows="2" placeholder="商品单价"
+                                value=""></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">详细信息</label>
+                            <textarea id="wq-idea" class="form-control" rows="2" placeholder="详细信息" value=""></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success" data-dismiss="modal"
+                                id="wq-save-question">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <table class="table table-bordered table-hover wq-main-table ">
+                    <thead>
+                        <tr>
+                            <th class="col-md-3 text-center">图片</th>
+                            <th class="col-md-3 text-center">名称</th>
+                            <th class="col-md-1 text-center">单价</th>
+                            <th class="col-md-3 text-center">详细信息</th>
+                            <th class="col-md-1 text-center">删除</th>
+                            <th class="col-md-1 text-center">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+
+                        <!--<tr class="text-center middle">
+						<td>**索引**</td>
+						<td>**标题**</td>
+						<td>**副标题**</td>
+						<td>
+							<a 
+								href="#" 
+								data-toggle="popover"
+								data-content="**过长内容详情(bootstrap会处理点击显示)**" 
+							>**过长隐藏内容**
+							</a>
+						</td>
+						<td>
+							<button class="btn delBtn">删除</button>
+						</td>
+						<td>
+							<button class="btn">
+								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script>
+        axios.get("http://localhost:3000/product").then(res => {
+            let str="";
+            for(let i=0;i<res.data.length;i++){
+                str+=`
+                <tr class="text-center middle">
+						<td><img src="${res.data[i].img}"></td>
+						<td>${res.data[i].title}</td>
+						<td>${res.data[i].price}</td>
+						<td>
+							<a 
+								href="#" 
+								data-toggle="popover"
+								data-content="**过长内容详情(bootstrap会处理点击显示)**" 
+							>${res.data[i].new}
+							</a>
+						</td>
+						<td>
+							<button class="btn delBtn" data-id="${res.data[i].id}">删除</button>
+						</td>
+						<td>
+							<button class="btn">
+								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+							</button>
+						</td>
+					</tr>
+                `;
+            }
+            tbody.innerHTML=str;
+        })
+        // axios.post("http://localhost:3000/product", {
+        //     // id:3,
+        //     img: "../json/3.jpg",
+        //     title: "商品3",
+        //     price: 300,
+        //     new:"休闲长裤"
+        // }).then(res => {
+        //     console.log(res);
+        // }).catch(err => {
+        //     console.log(err)
+        // })
+    </script>
+</body>
+
+</html>
