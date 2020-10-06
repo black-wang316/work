@@ -1,0 +1,39 @@
+{
+  "product": [
+    {
+      "id": 1,
+      "img": "../img/1.jpg",
+      "title": "商品1",
+      "price": 100,
+      "new": "休闲长裤"
+    },
+    {
+      "id": 2,
+      "img": "../img/2.jpg",
+      "title": "商品2",
+      "price": 200,
+      "new": "休闲长裤2"
+    },
+    {
+      "img": "../img/3.jpg",
+      "title": "商品3",
+      "price": 300,
+      "new": "休闲长裤",
+      "id": 3
+    },
+    {
+      "img": "../img/3.jpg",
+      "title": "商品4",
+      "price": "10",
+      "new": "去",
+      "id": 4
+    },
+    {
+      "img": "../img/1.jpg",
+      "title": "商品5",
+      "price": "145",
+      "new": "女装",
+      "id": 5
+    }
+  ]
+}
