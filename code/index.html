@@ -31,21 +31,25 @@
                         <!--细节划分-->
                         <h4>填写商品信息:</h4>
                         <div class="form-group">
+                            <label for="wq-content">图片</label>
+                            <input type="text" class="form-control" id="img" placeholder="图片" value="">
+                        </div>
+                        <div class="form-group">
                             <label for="wq-content">商品名称</label>
-                            <input type="text" class="form-control" id="wq-content" placeholder="商品名称" value="">
+                            <input type="text" class="form-control" id="title" placeholder="商品名称" value="">
                         </div>
                         <div class="form-group">
                             <label for="wq-where">商品单价</label>
-                            <textarea id="wq-where" class="form-control" rows="2" placeholder="商品单价"
+                            <textarea id="price" class="form-control" rows="2" placeholder="商品单价"
                                 value=""></textarea>
                         </div>
                         <div class="form-group">
                             <label for="title">详细信息</label>
-                            <textarea id="wq-idea" class="form-control" rows="2" placeholder="详细信息" value=""></textarea>
+                            <textarea id="new" class="form-control" rows="2" placeholder="详细信息" value=""></textarea>
                         </div>
                         <div class="text-center">
                             <button type="button" class="btn btn-success" data-dismiss="modal"
-                                id="wq-save-question">提交</button>
+                                id="sub">提交</button>
                         </div>
                     </div>
                 </div>
@@ -91,10 +95,10 @@
         </div>
     </div>
     <script>
-        axios.get("http://localhost:3000/product").then(res => {
-            let str="";
-            for(let i=0;i<res.data.length;i++){
-                str+=`
+        axios.get("http://localhost:3001/product").then(res => {
+            let str = "";
+            for (let i = 0; i < res.data.length; i++) {
+                str += `
                 <tr class="text-center middle">
 						<td><img src="${res.data[i].img}"></td>
 						<td>${res.data[i].title}</td>
@@ -118,19 +122,28 @@
 					</tr>
                 `;
             }
-            tbody.innerHTML=str;
+            tbody.innerHTML = str;
+        });
+        let title = $("#title");
+        let price = $("#price");
+        let naw = $("#new");
+        let img=$("#img");
+        let btn = $("#sub");
+        btn.click(function(){
+            console.log(title.val());
+            axios.post("http://localhost:3001/product", {
+                // id:3,
+                img: "../img/"+img.val()+".jpg",
+                title: title.val(),
+                price: price.val(),
+                new: naw.val()
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.log(err)
+            })
+            location.reload();
         })
-        // axios.post("http://localhost:3000/product", {
-        //     // id:3,
-        //     img: "../json/3.jpg",
-        //     title: "商品3",
-        //     price: 300,
-        //     new:"休闲长裤"
-        // }).then(res => {
-        //     console.log(res);
-        // }).catch(err => {
-        //     console.log(err)
-        // })
     </script>
 </body>
 
