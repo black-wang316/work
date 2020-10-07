@@ -40,16 +40,42 @@
                         </div>
                         <div class="form-group">
                             <label for="wq-where">商品单价</label>
-                            <textarea id="price" class="form-control" rows="2" placeholder="商品单价"
-                                value=""></textarea>
+                            <textarea id="price" class="form-control" rows="2" placeholder="商品单价" value=""></textarea>
                         </div>
                         <div class="form-group">
                             <label for="title">详细信息</label>
                             <textarea id="new" class="form-control" rows="2" placeholder="详细信息" value=""></textarea>
                         </div>
                         <div class="text-center">
-                            <button type="button" class="btn btn-success" data-dismiss="modal"
-                                id="sub">提交</button>
+                            <button type="button" class="btn btn-success" data-dismiss="modal" id="sub">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 修改 -->
+            <div class="modal fade res">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <!--细节划分-->
+                        <h4>填写商品信息:</h4>
+                        <div class="form-group">
+                            <label for="wq-content">图片</label>
+                            <input type="text" class="form-control" id="img1" placeholder="图片" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="wq-content">商品名称</label>
+                            <input type="text" class="form-control" id="title1" placeholder="商品名称" value="">
+                        </div>
+                        <div class="form-group">
+                            <label for="wq-where">商品单价</label>
+                            <textarea id="price1" class="form-control" rows="2" placeholder="商品单价" value=""></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">详细信息</label>
+                            <textarea id="new1" class="form-control" rows="2" placeholder="详细信息" value=""></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-success" data-dismiss="modal" id="res">修改</button>
                         </div>
                     </div>
                 </div>
@@ -95,15 +121,16 @@
         </div>
     </div>
     <script>
+        //查询数据
         axios.get("http://localhost:3001/product").then(res => {
             let str = "";
             for (let i = 0; i < res.data.length; i++) {
                 str += `
                 <tr class="text-center middle">
-						<td><img src="${res.data[i].img}"></td>
-						<td>${res.data[i].title}</td>
-						<td>${res.data[i].price}</td>
-						<td>
+						<td class="photo"><img src="${res.data[i].img}"></td>
+						<td class="content">${res.data[i].title}</td>
+						<td class="danjia">${res.data[i].price}</td>
+						<td class="xiangqing">
 							<a 
 								href="#" 
 								data-toggle="popover"
@@ -112,28 +139,68 @@
 							</a>
 						</td>
 						<td>
-							<button class="btn delBtn" data-id="${res.data[i].id}">删除</button>
+							<button class="btn delBtn" data-id="${res.data[i].id}" style="background:red">删除</button>
 						</td>
 						<td>
-							<button class="btn">
-								<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+							<button class="btn resvice" data-id="${res.data[i].id}" style="background:skyblue"  data-toggle="modal" data-target=".res">
+								<span class="glyphicon glyphicon-send" aria-hidden="true"></span>
 							</button>
 						</td>
 					</tr>
                 `;
             }
             tbody.innerHTML = str;
+            //删除数据
+            // let btns = $(".delBtn");
+            // btns.click(function () {
+            //     let id = $(this).attr("data-id");
+            //     axios.delete("http://localhost:3001/product/" + id);
+            //     location.reload();
+            // })
+            // let aBtns = document.querySelectorAll(".delBtn");
+            // for (let i = 0; i < aBtns.length; i++) {
+            //     aBtns[i].onclick = function () {
+            //         //删数据
+            //         let id = aBtns[i].getAttribute("data-id");
+            //         axios.delete("http://localhost:3001/product/" + id);
+            //         location.reload();
+            //     }
+            // }
+            //修改数据
+            let img1=$("#img1");
+            let title1 = $("#title1");
+            let price1 = $("#price1");
+            let naw1 = $("#new1");
+            let btn1 = $("#res");
+            let resvice = $(".resvice");
+            resvice.click(function () {
+                let id = $(this).attr("data-id");
+                // img1.val($(this).parent().parent().find(".photo").text());
+                title1.val($(this).parent().parent().find(".content").text());
+                price1.val($(this).parent().parent().find(".danjia").text());
+                naw1.val($.trim($(this).parent().parent().find(".xiangqing").text()));
+            btn1.click(function () {
+                console.log(id)
+                axios.patch("http://localhost:3001/product/" + id, {
+                    // img:"../img/" + img1.val() + ".jpg",
+                    title: title1.val(),
+                    price: price1.val(),
+                    new: naw1.val()
+                })
+                location.reload();
+            })
+            })
         });
+        //添加数据
         let title = $("#title");
         let price = $("#price");
         let naw = $("#new");
-        let img=$("#img");
+        let img = $("#img");
         let btn = $("#sub");
-        btn.click(function(){
+        btn.click(function () {
             console.log(title.val());
             axios.post("http://localhost:3001/product", {
-                // id:3,
-                img: "../img/"+img.val()+".jpg",
+                img: "../img/" + img.val() + ".jpg",
                 title: title.val(),
                 price: price.val(),
                 new: naw.val()
@@ -144,6 +211,8 @@
             })
             location.reload();
         })
+
+
     </script>
 </body>
 
